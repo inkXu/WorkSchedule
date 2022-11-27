@@ -5,4 +5,7 @@ public class HasUseful {
         employee_name = new String();
         course = new String[size];
     }
+    public HasUseful() {
+        employee_name = new String();
+    }
 }

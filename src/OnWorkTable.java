@@ -34,6 +34,13 @@ public class OnWorkTable {
             }
             int flag = blackInsert(table, employee, maxJobsOfzb, maxJobsOfjd, maxJobsOfwh, 0);
             blackCallback(flag, table, employee, employees, maxJobsOfzb, maxJobsOfjd, maxJobsOfwh);
+            if (employee.bsize < 3) {
+                try {
+                    throw new Exception(employee.name + "只排了" + employee.bsize + "个白班!");
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return table;
     }
@@ -51,6 +58,13 @@ public class OnWorkTable {
             Employee employee = employees.get(i);
             int flag = whiteInsert(table, employee, maxJobsOfLb, 0);
             whiteCallback(flag, table, employee, employees, maxJobsOfLb);
+            if (employee.wsize < 3) {
+                try {
+                    throw new Exception(employee.name + "只排了" + employee.wsize + "个白班!");
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return table;
     }
@@ -71,9 +85,11 @@ public class OnWorkTable {
         Random rand = new Random();
         ArrayList<String> exist = new ArrayList<>();
         boolean is = false;
-        HasUseful temp = null;
-        while (!is && exist.size() < lb.length) {
-            String lb_time = lb[rand.nextInt(lb.length)];
+        HasUseful temp = new HasUseful();
+        int lb_size  = lb.length;
+        while (!is && exist.size() < lb_size) {
+            int i = 0;
+            String lb_time = lb[rand.nextInt(lb_size)];
             int week = Integer.parseInt(lb_time.substring(1, 2));
             int courseNum = Integer.parseInt(lb_time.substring(3, 4)) - 1;
             if (exist.contains(lb_time)) {
@@ -86,7 +102,9 @@ public class OnWorkTable {
                         temp = remove(table.monday[courseNum]);
                         table.monday[courseNum] = temp.course;
                         table.monday[courseNum][table.monday[courseNum].length - 1] = employee.name;
+                        employee.wsize++;
                         is = true;
+                        i++;
                     }
                     break;
                 case 2:
@@ -94,7 +112,9 @@ public class OnWorkTable {
                         temp = remove(table.tuesday[courseNum]);
                         table.tuesday[courseNum] = temp.course;
                         table.tuesday[courseNum][table.tuesday[courseNum].length - 1] = employee.name;
+                        employee.wsize++;
                         is = true;
+                        i++;
                     }
                     break;
                 case 3:
@@ -102,7 +122,9 @@ public class OnWorkTable {
                         temp = remove(table.wednesday[courseNum]);
                         table.wednesday[courseNum] = temp.course;
                         table.wednesday[courseNum][table.wednesday[courseNum].length - 1] = employee.name;
+                        employee.wsize++;
                         is = true;
+                        i++;
                     }
                     break;
                 case 4:
@@ -110,7 +132,9 @@ public class OnWorkTable {
                         temp = remove(table.thursday[courseNum]);
                         table.thursday[courseNum] = temp.course;
                         table.thursday[courseNum][table.thursday[courseNum].length - 1] = employee.name;
+                        employee.wsize++;
                         is = true;
+                        i++;
                     }
                     break;
                 case 5:
@@ -118,14 +142,15 @@ public class OnWorkTable {
                         temp = remove(table.friday[courseNum]);
                         table.friday[courseNum] = temp.course;
                         table.friday[courseNum][table.friday[courseNum].length - 1] = employee.name;
+                        employee.wsize++;
                         is = true;
+                        i++;
                     }
                     break;
                 default:
                     break;
             }
         }
-        assert temp != null;
         return temp.employee_name;
     }
     private static HasUseful remove(String[] arr) {
@@ -179,6 +204,7 @@ public class OnWorkTable {
                         table.monday[courseNum] = Arrays.copyOf(table.monday[courseNum], table.monday[courseNum].length+1);
                         // 前一行代码对数组的长度加了1,所以可以存储在该数组的最后
                         table.monday[courseNum][table.monday[courseNum].length-1] = employee.name;
+                        employee.wsize++;
                         ++flag;
                     }
                     break;
@@ -189,6 +215,7 @@ public class OnWorkTable {
                     }else{
                         table.tuesday[courseNum] = Arrays.copyOf(table.tuesday[courseNum], table.tuesday[courseNum].length+1);
                         table.tuesday[courseNum][table.tuesday[courseNum].length-1] = employee.name;
+                        employee.wsize++;
                         ++flag;
                     }
                     break;
@@ -198,6 +225,7 @@ public class OnWorkTable {
                     }else{
                         table.wednesday[courseNum] = Arrays.copyOf(table.wednesday[courseNum], table.wednesday[courseNum].length+1);
                         table.wednesday[courseNum][table.wednesday[courseNum].length-1] = employee.name;
+                        employee.wsize++;
                         ++flag;
                     }
                     break;
@@ -207,6 +235,7 @@ public class OnWorkTable {
                     }else{
                         table.thursday[courseNum] = Arrays.copyOf(table.thursday[courseNum], table.thursday[courseNum].length+1);
                         table.thursday[courseNum][table.thursday[courseNum].length-1] = employee.name;
+                        employee.wsize++;
                         ++flag;
                     }
                     break;
@@ -216,6 +245,7 @@ public class OnWorkTable {
                     }else{
                         table.friday[courseNum] = Arrays.copyOf(table.friday[courseNum], table.friday[courseNum].length+1);
                         table.friday[courseNum][table.friday[courseNum].length-1] = employee.name;
+                        employee.wsize++;
                         ++flag;
                     }
                     break;
@@ -311,6 +341,7 @@ public class OnWorkTable {
                 table.zb[zbtime] = Arrays.copyOf(table.zb[zbtime], table.zb[zbtime].length + 1);
                 table.zb[zbtime][table.zb[zbtime].length - 1] = employee.name;
                 selected_zj.add(zbtime);
+                employee.bsize++;
                 ++flag;
                 hasZb = true;
                 continue;
@@ -320,6 +351,7 @@ public class OnWorkTable {
                     table.jd[zbtime] = Arrays.copyOf(table.jd[zbtime], table.jd[zbtime].length + 1);
                     table.jd[zbtime][table.jd[zbtime].length - 1] = employee.name;
                     selected_zj.add(zbtime);
+                    employee.bsize++;
                     ++flag;
                     hasJd = true;
                 }
@@ -342,6 +374,7 @@ public class OnWorkTable {
                 table.wh[whtime] = Arrays.copyOf(table.wh[whtime], table.wh[whtime].length + 1);
                 table.wh[whtime][table.wh[whtime].length - 1] = employee.name;
                 selected_wh.add(whtime);
+                employee.bsize++;
                 ++flag;
             }
         }
@@ -434,6 +467,7 @@ public class OnWorkTable {
                 temp = remove(table.wh[whtime]);
                 table.wh[whtime] = temp.course;
                 table.wh[whtime][table.wh[whtime].length - 1]  = employee.name;
+                employee.bsize++;
                 is = true;
                 break;
             }
@@ -452,6 +486,7 @@ public class OnWorkTable {
                 temp = remove(table.zb[zbtime]);
                 table.zb[zbtime] = temp.course;
                 table.zb[zbtime][table.zb[zbtime].length - 1] = employee.name;
+                employee.bsize++;
                 break;
             }
             if (rand.nextInt(10) > 5) {
@@ -459,6 +494,7 @@ public class OnWorkTable {
                     temp = remove(table.jd[zbtime]);
                     table.jd[zbtime] = temp.course;
                     table.jd[zbtime][table.jd[zbtime].length - 1] = employee.name;
+                    employee.bsize++;
                     break;
                 }
             }

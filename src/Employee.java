@@ -5,4 +5,6 @@ class Employee {
     String jdnum = new String();
     String whnum = new String();
     String lbnum = new String();
+    int wsize = 0;
+    int bsize = 0;
 }

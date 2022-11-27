@@ -38,7 +38,7 @@ public class GetWorkTime {
                     for(int ii=0;ii<oneWork.length;ii++){
                         if(oneWork[ii].indexOf("-") > 0){
                             String start = oneWork[ii].substring(0,oneWork[ii].indexOf("-"));
-                            String end   = oneWork[ii].substring(oneWork[ii].indexOf("-")+1,oneWork[ii].length());
+                            String end   = oneWork[ii].substring(oneWork[ii].indexOf("-")+1);
                             if( Integer.parseInt(start) <= week  &&  Integer.parseInt(end) >= week ){
                                 zbiao.x = i-1;
                                 zbiao.y = j+1;
