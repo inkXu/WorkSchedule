@@ -32,6 +32,7 @@ public class Work {
         showArea.append("开源地址: https://github.com/inkXu/WorkSchedule\n");
         showArea.append("使用前请查看说明! 谢谢配合!\n");
         btnCreate.addActionListener(e -> {
+            FileOperation.clearInfoForFile("./error.log");
             startWeek = startField.getText();
             endWeek = endField.getText();
             if (startWeek == null || endWeek == null || startWeek.equals("") || endWeek.equals("")) {
@@ -97,7 +98,7 @@ public class Work {
 
         JPanel panel_start = new JPanel();
 
-        JLabel label_start = new JLabel("开始周");
+        JLabel label_start = new JLabel("起始周");
         panel_start.add(label_start);
         panel_start.add(startField);
 

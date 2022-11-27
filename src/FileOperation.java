@@ -17,6 +17,32 @@ import java.util.ArrayList;
 
 //文件操作类，有xls文件的读写方法和txt文件的读取方法
 public class FileOperation {
+    //删除文件
+    static void deleteFile(String path) {
+        File file = new File(path);
+        try {
+            if(!file.exists()) {
+                file.delete();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //清空文件
+    static void clearInfoForFile(String path) {
+        File file = new File(path);
+        try {
+            if(!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fileWriter =new FileWriter(file);
+            fileWriter.write("");  //写入空
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     //获取path下的文件名
     static ArrayList<String> queryFileName(String path){
         ArrayList<String> filelist = new ArrayList<String>();
